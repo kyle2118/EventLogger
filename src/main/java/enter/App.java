@@ -2,21 +2,30 @@ package enter;
 
 import beans.Client;
 import loggers.ConsoleEventLogger;
+import loggers.interfaces.EventLogger;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class App {
     public Client client;
-    public ConsoleEventLogger consoleEventLogger;
+    public EventLogger logger;
 
+    public App(Client client, EventLogger logger) {
+        this.client = client;
+        this.logger = logger;
+    }
 
     public void logEvent(String msg) {
         String message = msg.replaceAll(client.getId() + "", client.getName());
-        consoleEventLogger.logEvent(message);
+        logger.logEvent(message);
     }
 
     public static void main(String[] args) {
-        App app = new App();
-        app.client = new Client(1, "Kirk Osborn");
-        app.consoleEventLogger = new ConsoleEventLogger();
+        ApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
+
+        App app = (App)context.getBean("app");
+
+
         app.logEvent("Event for user 1");
     }
 }

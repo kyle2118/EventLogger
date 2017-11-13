@@ -32,6 +32,6 @@ public class Event {
     @Override
     public String toString() {
         String date = dateTime.format(DateTimeFormatter.ofPattern("dd MMM yyyy HH:mm:ss")); // 20 symbols
-        return String.format("[%04d, %-20s, %s", id, date, msg);
+        return String.format("[%04d, %-20s, %s]\n", id, date, msg);
     }
 }

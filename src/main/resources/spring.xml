@@ -6,17 +6,12 @@
 
     <bean name="app" class="enter.App">
         <constructor-arg ref="client"/>
-        <constructor-arg ref="consoleLogger"/>
+        <constructor-arg ref="cacheFileLogger"/>
     </bean>
 
     <bean id="client" class="beans.Client">
         <constructor-arg value="1"/>
         <constructor-arg value="Kirk Brown"/>
-    </bean>
-
-    <bean name="consoleLogger" class="loggers.ConsoleEventLogger"/>
-    <bean name="fileLogger" class="loggers.FileEventLogger">
-        <constructor-arg value="/users/admin/Desktop/IdeaProjects/EventLogger/src/main/resources/logs.txt"/>
     </bean>
 
     <bean name="event" class="events.Event" scope="prototype">
@@ -25,4 +20,16 @@
             <bean class="java.time.LocalDateTime" factory-method="now"/>
         </constructor-arg>
     </bean>
+
+    <!--  Loggers: Console, FileLogger <- CacheFileLogger  -->
+
+    <bean name="consoleLogger" class="loggers.ConsoleEventLogger"/>
+    <bean name="fileLogger" class="loggers.FileEventLogger" init-method="init">
+        <constructor-arg value="/users/admin/Desktop/IdeaProjects/EventLogger/src/main/resources/logs.txt"/>
+    </bean>
+    <bean name="cacheFileLogger" class="loggers.CacheFileEventLogger">
+        <constructor-arg value="/users/admin/Desktop/IdeaProjects/EventLogger/src/main/resources/logs.txt"/>
+        <constructor-arg value="4"/>
+    </bean>
+
 </beans>

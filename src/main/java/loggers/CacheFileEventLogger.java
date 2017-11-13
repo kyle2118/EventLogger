@@ -45,4 +45,10 @@ public class CacheFileEventLogger extends FileEventLogger {
         }
         listOfEvents.clear();
     }
+
+    protected void destroy() {
+        if (!listOfEvents.isEmpty()) {
+            writeEventsFromCache();
+        }
+    }
 }

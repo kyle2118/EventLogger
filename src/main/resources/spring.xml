@@ -27,7 +27,7 @@
     <bean name="fileLogger" class="loggers.FileEventLogger" init-method="init">
         <constructor-arg value="/users/admin/Desktop/IdeaProjects/EventLogger/src/main/resources/logs.txt"/>
     </bean>
-    <bean name="cacheFileLogger" class="loggers.CacheFileEventLogger">
+    <bean name="cacheFileLogger" class="loggers.CacheFileEventLogger" destroy-method="destroy">
         <constructor-arg value="/users/admin/Desktop/IdeaProjects/EventLogger/src/main/resources/logs.txt"/>
         <constructor-arg value="4"/>
     </bean>

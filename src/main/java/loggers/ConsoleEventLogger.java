@@ -1,6 +1,6 @@
 package loggers;
 
-import events.Event;
+import beans.Event;
 import loggers.interfaces.EventLogger;
 
 public class ConsoleEventLogger implements EventLogger {

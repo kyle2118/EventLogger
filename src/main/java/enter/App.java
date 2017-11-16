@@ -1,46 +1,49 @@
 package enter;
 
 import beans.Client;
-import events.Event;
-import events.EventType;
-import loggers.ConsoleEventLogger;
+import beans.Event;
+import beans.EventType;
 import loggers.interfaces.EventLogger;
 
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Map;
 
 public class App {
-    public Client client;
-    public EventLogger logger;
-
-    public App(Client client, EventLogger logger) {
-        this.client = client;
-        this.logger = logger;
-    }
-
-    public void logEvent(Event event, EventType type) {
-        if (type == EventType.ERROR) {
-
-        } else if (type == EventType.INFO) {
-
-        } else if (type == null) {
-
-        }
-        logger.logEvent(event);
-    }
-
+    private EventLogger defaultLogger;
+    private Map<EventType, EventLogger> loggers;
     public static void main(String[] args) {
         ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("spring.xml");
 
-        App app = (App)context.getBean("app");
-        Event event1 = (Event)context.getBean("event");
-        event1.setMsg("New Message set");
+        App app = (App)context.getBean(App.class);
 
-        app.logEvent(event1, EventType.ERROR);
+        Event event = (Event)context.getBean(Event.class);
+        Client client1 = (Client)context.getBean("client1");
+        Client client2 = (Client)context.getBean("client2");
+        Client client3 = (Client)context.getBean("client3");
+
+        app.logEvent(client1, EventType.ERROR, event, "Event for " + client1.getId() + " with ERROR");
+        app.logEvent(client2, EventType.INFO, event, "Event for " + client2.getId() + " with INFO");
+        app.logEvent(client3, null, event, "Event for " + client3.getId() + " with null");
 
         context.close();
+    }
+
+    public App(EventLogger logger, Map<EventType, EventLogger> loggers) {
+        this.defaultLogger = logger;
+        this.loggers = loggers;
+    }
+
+    public void logEvent(Client client, EventType type, Event event, String msg) {
+        msg = msg.replaceAll(client.getId() + "", client.getName());
+        event.setMsg(msg);
+        EventLogger logger = loggers.get(type);
+
+        if (logger == null) {
+            logger = defaultLogger;
+        }
+        logger.logEvent(event);
     }
 }

@@ -4,17 +4,19 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
 
+
     <bean name="app" class="enter.App">
-        <constructor-arg ref="client"/>
-        <constructor-arg ref="cacheFileLogger"/>
+        <constructor-arg ref="combinedLogger"/>
+        <constructor-arg>
+            <map>
+                <entry key="INFO" value-ref="fileLogger"/>
+                <entry key="ERROR" value-ref="consoleLogger"/>
+            </map>
+        </constructor-arg>
     </bean>
 
-    <bean id="client" class="beans.Client">
-        <constructor-arg value="1"/>
-        <constructor-arg value="Kirk Brown"/>
-    </bean>
 
-    <bean name="event" class="events.Event" scope="prototype">
+    <bean name="event" class="beans.Event" scope="prototype">
         <constructor-arg value="Event injection"/>
         <constructor-arg>
             <bean class="java.time.LocalDateTime" factory-method="now"/>
@@ -22,5 +24,8 @@
     </bean>
 
     <import resource="loggers.xml"/>
+    <import resource="clients.xml"/>
+
+
 
 </beans>

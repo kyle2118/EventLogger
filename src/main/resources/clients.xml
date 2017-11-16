@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:client.properties</value>
+            </list>
+        </property>
+        <property name="ignoreResourceNotFound" value="true"/>
+        <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE"/>
+    </bean>
+
+    <bean id="client1" class="beans.Client" >
+        <property name="id" value="${client1.id}"/>
+        <property name="name" value="${client1.name}"/>
+        <property name="greeting" value="${client1.greeting}"/>
+    </bean>
+    <bean id="client2" class="beans.Client" >
+        <property name="id" value="${client2.id}"/>
+        <property name="name" value="${client2.name}"/>
+        <property name="greeting" value="${client2.greeting}"/>
+    </bean>
+    <bean id="client3" class="beans.Client" >
+        <property name="id" value="${client3.id}"/>
+        <property name="name" value="${client3.name}"/>
+        <property name="greeting" value="${client3.greeting}"/>
+    </bean>
+</beans>

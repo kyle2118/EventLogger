@@ -2,8 +2,10 @@ package enter;
 
 import beans.Client;
 import events.Event;
+import events.EventType;
 import loggers.ConsoleEventLogger;
 import loggers.interfaces.EventLogger;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -19,8 +21,14 @@ public class App {
         this.logger = logger;
     }
 
-    public void logEvent(Event event) {
+    public void logEvent(Event event, EventType type) {
+        if (type == EventType.ERROR) {
 
+        } else if (type == EventType.INFO) {
+
+        } else if (type == null) {
+
+        }
         logger.logEvent(event);
     }
 
@@ -29,13 +37,9 @@ public class App {
 
         App app = (App)context.getBean("app");
         Event event1 = (Event)context.getBean("event");
+        event1.setMsg("New Message set");
 
-        app.logEvent(new Event("Hard connection via type1", LocalDateTime.now()));
-        app.logEvent(new Event("Hard connection via type2", LocalDateTime.now()));
-        app.logEvent(event1);
-        app.logEvent(new Event("Hard connection via type3", LocalDateTime.of(1957, 11, 21, 10, 14, 15)));
-        app.logEvent(new Event("Hard connection via type4", LocalDateTime.now()));
-        app.logEvent(new Event("Hard connection via type5", LocalDateTime.now()));
+        app.logEvent(event1, EventType.ERROR);
 
         context.close();
     }
